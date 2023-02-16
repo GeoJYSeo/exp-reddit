@@ -1,5 +1,5 @@
-import React from 'react'
-import Navbar from '../navbar/Navbar'
+import React from "react"
+import Navbar from "../navbar/Navbar"
 
 type IProps = {
   children: React.ReactNode

@@ -1,6 +1,6 @@
-import { authModalState } from '@/src/atoms/authModalAtom'
-import { Button } from '@chakra-ui/react'
-import { useSetRecoilState } from 'recoil'
+import { authModalState } from "@/src/atoms/authModalAtom"
+import { Button } from "@chakra-ui/react"
+import { useSetRecoilState } from "recoil"
 
 const AuthButtons:React.FC = () => {
 
