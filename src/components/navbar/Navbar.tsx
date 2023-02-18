@@ -4,18 +4,19 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import RightContent from "./RightContent/RightContent"
 import SearchInput from "./SearchInput"
 import { auth } from "../../firebase/clientApp"
+import Directory from "./directory/Directory"
 
 const Navbar = () => {
   const [user, loading, error] = useAuthState(auth)
   return (
-    <Flex bg="white" height="44px" padding="6px 12px">
-      <Flex align="center">
+    <Flex bg="white" height="44px" padding="6px 12px" justify={{ md: "space-between" }}>
+      <Flex align="center" width={{ base: "40px", md: "auto" }} mr={{ base: 0, md: 2 }}>
         <Image src="/images/redditFace.svg" height="30px" alt="" />
         <Image src="/images/redditText.svg" height="46px" alt="" display={{ base: "none", md: "unset" }} />
       </Flex>
-      <SearchInput />
+      {user && <Directory />}
+      <SearchInput user={user} />
       <RightContent user={user} />
-      {/* <Directory /> */}
     </Flex>
   )
 }
