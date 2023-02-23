@@ -1,4 +1,5 @@
 import { atom } from "recoil"
+import { v4 } from "uuid"
 
 export interface AuthModalState {
   open: boolean
@@ -11,6 +12,6 @@ const defaultModalState: AuthModalState = {
 }
 
 export const authModalState = atom<AuthModalState>({
-  key: "authModalState",
+  key: `authModalState${v4()}`,
   default: defaultModalState,
 })
