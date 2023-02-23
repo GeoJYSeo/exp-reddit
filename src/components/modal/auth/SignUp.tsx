@@ -1,10 +1,12 @@
 import { authModalState } from "@/src/atoms/authModalAtom"
 import { Button, Flex, Input, Text } from "@chakra-ui/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSetRecoilState } from "recoil"
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth"
-import { auth } from "../../../firebase/clientApp"
+import { auth, firestore } from "../../../firebase/clientApp"
 import { FIREBASE_ERRORS } from "@/src/firebase/errors"
+import { addDoc, collection } from "firebase/firestore"
+import { User } from "firebase/auth"
 
 const SignUp:React.FC = () => {
   
@@ -19,7 +21,7 @@ const SignUp:React.FC = () => {
   const [error, setError] = useState("")
   const [
     createUserWithEmailAndPassword,
-    user,
+    userCred,
     loading,
     userError
   ] = useCreateUserWithEmailAndPassword(auth)
@@ -31,7 +33,7 @@ const SignUp:React.FC = () => {
       // setError
       setError("Password do not match")
       return
-    }
+    } 
     createUserWithEmailAndPassword(signUpForm.email, signUpForm.password)
   }
 
@@ -41,6 +43,16 @@ const SignUp:React.FC = () => {
       [e.target.name]: e.target.value
     }))
   }
+
+  const createUserDocument = async (user: User) => {
+    await addDoc(collection(firestore, 'users'), JSON.parse(JSON.stringify(user)))
+  }
+
+  useEffect(() => {
+    if (userCred) {
+      createUserDocument(userCred.user)
+    }
+  }, [userCred])
   
   return (
     <form onSubmit={onSubmit}>
