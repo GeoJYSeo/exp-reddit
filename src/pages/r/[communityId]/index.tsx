@@ -1,4 +1,4 @@
-import { Community } from "@/src/atoms/CommunityAtom"
+import { Community } from "@/src/atoms/communityAtom"
 import { doc, getDoc } from "firebase/firestore"
 import { GetServerSidePropsContext } from "next"
 import { firestore } from "../../../firebase/clientApp"
@@ -6,6 +6,7 @@ import safeJsonStringify from "safe-json-stringify"
 import NotFound from "@/src/components/community/NotFound"
 import Header from "@/src/components/community/Header"
 import PageContent from "@/src/components/layout/PageContent"
+import CreatePostLink from "@/src/components/community/CreatePostLink"
 
 type CommunityPageProps = {
   communityData: Community
@@ -24,12 +25,7 @@ const CommunityPage:React.FC<CommunityPageProps> = ({ communityData }) => {
       <Header communityData={communityData} />
       <PageContent>
         <>
-          <div>LHS</div>
-          <div>LHS</div>
-          <div>LHS</div>
-          <div>LHS</div>
-          <div>LHS</div>
-          <div>LHS</div>
+          <CreatePostLink />
         </>
         <>
           <div>RHS</div>

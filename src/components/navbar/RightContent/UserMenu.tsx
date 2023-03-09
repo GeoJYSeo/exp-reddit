@@ -9,7 +9,7 @@ import { auth } from "../../../firebase/clientApp"
 import { useResetRecoilState, useSetRecoilState } from "recoil"
 import { authModalState } from "@/src/atoms/authModalAtom"
 import { IoSparkles } from "react-icons/io5"
-import { communityState } from "@/src/atoms/CommunityAtom"
+import { communityState } from "@/src/atoms/communityAtom"
 
 type UserMenuProps = {
   user?: User | null
