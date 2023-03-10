@@ -71,6 +71,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ user }) => {
       numberOdComments: 0,
       voteStatus: 0,
       createdAt: serverTimestamp() as Timestamp,
+      id: ""
     }
 
     setLoading(true)
@@ -90,13 +91,13 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ user }) => {
           imageURL: downloadURL,
         })
       }
+      // redirect the user back to the communityPage using the router
+      router.back()
     } catch (e: any) {
       console.log("handleCreatePost error", e.message)
       setError(true)
     }
     setLoading(false)
-    // redirect the user back to the communityPage using the router
-    router.back()
   }
 
   const onSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
