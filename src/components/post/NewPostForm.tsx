@@ -62,22 +62,19 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ user }) => {
 
     const { communityId } = router.query
     // create new post object => type Post
-    const newPost: Post = {
-      communityId: communityId as string,
-      creatorId: user.uid,
-      creatorDisplayName: user.email!.split("@")[0],
-      title: textInputs.title,
-      body: textInputs.body,
-      numberOdComments: 0,
-      voteStatus: 0,
-      createdAt: serverTimestamp() as Timestamp,
-      id: ""
-    }
-
     setLoading(true)
     try {
       // store the post in db
-      const postDocRef = await addDoc(collection(firestore, "posts"), newPost)
+      const postDocRef = await addDoc(collection(firestore, "posts"), {
+        communityId: communityId as string,
+        creatorId: user.uid,
+        creatorDisplayName: user.email!.split("@")[0],
+        title: textInputs.title,
+        body: textInputs.body,
+        numberOdComments: 0,
+        voteStatus: 0,
+        createdAt: serverTimestamp() as Timestamp,
+      })
       
       // check for selectedFile
       if (selectedFile) {
