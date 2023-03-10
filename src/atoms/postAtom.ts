@@ -3,6 +3,7 @@ import { atom } from "recoil"
 import { v4 } from 'uuid';
 
 export type Post = {
+  id: string
   communityId: string
   creatorId: string
   creatorDisplayName: string
