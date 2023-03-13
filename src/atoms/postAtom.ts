@@ -9,25 +9,33 @@ export type Post = {
   creatorDisplayName: string
   title: string
   body: string
-  numberOdComments: number
+  numberOfComments: number
   voteStatus: number
   imageURL?: string
   communityImageURL?: string
   createdAt: Timestamp
 }
 
+export type PostVote = {
+  id: string
+  postId: string
+  communityId: string
+  voteValue: number
+}
+
 interface PostState {
   selectedPost: Post | null
   posts: Post[]
-  // postVotes
+  postVotes: PostVote[]
 }
 
 const defaultPostState: PostState = {
   selectedPost: null,
-  posts: []
+  posts: [],
+  postVotes: [],
 }
 
 export const postState = atom<PostState>({
-  key: `postState${v4}`,
+  key: `postState${v4()}`,
   default: defaultPostState,
 })
