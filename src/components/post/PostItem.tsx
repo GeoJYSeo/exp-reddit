@@ -10,7 +10,7 @@ type PostItemProps = {
   post: Post
   userIsCreator: boolean
   userVoteValue?: number
-  onVote: () => {}
+  onVote: (post: Post, vote: number, communityId: string) => void
   onDeletePost: (post: Post) => Promise<boolean>
   onSelectPost: () => {}
 }
@@ -62,16 +62,15 @@ const PostItem:React.FC<PostItemProps> = ({
           color={userVoteValue === 1 ? "brand.100" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-          onClick={onVote}
+          onClick={() => onVote(post, 1, post.communityId)}
         />
         <Text fontSize="9px">{post.voteStatus}</Text>
-        <Text fontSize="9px">{userVoteValue}</Text>
         <Icon
           as={userVoteValue === -1 ? IoArrowDownCircleSharp : IoArrowDownCircleOutline}
           color={userVoteValue === -1 ? "brand.100" : "gray.400"}
           fontSize={22}
           cursor="pointer"
-          onClick={onVote}
+          onClick={() => onVote(post, -1, post.communityId)}
         />
       </Flex>
       <Flex
@@ -131,7 +130,7 @@ const PostItem:React.FC<PostItemProps> = ({
             cursor="point"
           >
             <Icon as={BsChat} mr={2} />
-            <Text fontSize="9pt">{post.numberOdComments}</Text>
+            <Text fontSize="9pt">{post.numberOfComments}</Text>
           </Flex>
           <Flex
             align="center"
