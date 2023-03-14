@@ -5,7 +5,7 @@ import { auth, firestore } from "@/src/firebase/clientApp"
 import usePosts from "@/src/hooks/usePosts"
 import { doc, getDoc } from "firebase/firestore"
 import { useRouter } from "next/router"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { useAuthState } from "react-firebase-hooks/auth"
 
 const PostPage: React.FC = () => {
@@ -14,7 +14,7 @@ const PostPage: React.FC = () => {
   const { postStateValue, setPostStateValue, onDeletePost, onVote, onSelectPost } = usePosts()
   
   const router = useRouter()
-  const fetchPost = async (postId: string) => {
+  const fetchPost = useCallback(async (postId: string) => {
     try {
       const postDocRef = doc(firestore, "posts", postId)
       const postDoc = await getDoc(postDocRef)
@@ -25,7 +25,7 @@ const PostPage: React.FC = () => {
     } catch (e) {
       console.log("fetchPost error", e)
     }
-  }
+  }, [setPostStateValue])
 
   useEffect(() => {
     const { pid } = router.query
@@ -33,7 +33,7 @@ const PostPage: React.FC = () => {
     if (pid && !postStateValue.selectedPost) {
       fetchPost(pid as string)
     }
-  }, [postStateValue.selectedPost, router.query])
+  }, [fetchPost, postStateValue.selectedPost, router.query])
 
   return (
     <PageContent>
