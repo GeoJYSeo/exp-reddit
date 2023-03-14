@@ -1,5 +1,6 @@
 import { collection, deleteDoc, doc, getDocs, query, where, writeBatch } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { RiContactsBookLine } from "react-icons/ri";
@@ -12,12 +13,15 @@ import { auth, firestore, storage } from "../firebase/clientApp";
 const usePosts = () => {
   
   const [user] = useAuthState(auth)
+  const router = useRouter()
   const [postStateValue, setPostStateValue] = useRecoilState(postState)
   const communityStateValue  = useRecoilValue(communityState)
   const setAuthModalState = useSetRecoilState(authModalState)
 
-  const onVote = async (post: Post, vote: number, communityId: string) => {
+  const onVote = async (event: React.MouseEvent<SVGElement, MouseEvent>, post: Post, vote: number, communityId: string) => {
 
+    event.stopPropagation()
+  
     if (!user?.uid) {
       setAuthModalState({ open: true, view: "login" })
     }
@@ -100,12 +104,25 @@ const usePosts = () => {
         postVotes: updatedPostVotes,
       }))
 
+      if (postStateValue.selectedPost) {
+        setPostStateValue(prev => ({
+          ...prev,
+          selectedPost: updatedPost,
+        }))
+      }
+
     } catch (e) {
       console.log('onVote error', e)
     }
   }
 
-  const onSelectPost = async () => {}
+  const onSelectPost = async (post: Post) => {
+    setPostStateValue(prev => ({
+      ...prev,
+      selectedPost: post,
+    }))
+    router.push(`/r/${post.communityId}/comments/${post.id}`)
+  }
   
   const onDeletePost = async (post: Post): Promise<boolean> => {
     
