@@ -1,4 +1,3 @@
-import { communityState } from "@/src/atoms/communityAtom"
 import About from "@/src/components/community/About"
 import PageContent from "@/src/components/layout/PageContent"
 import NewPostForm from "@/src/components/post/NewPostForm"
