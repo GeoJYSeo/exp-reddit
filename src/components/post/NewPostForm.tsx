@@ -15,6 +15,7 @@ import useSelectFile from "@/src/hooks/useSelectFile";
 
 type NewPostFormProps = {
   user: User
+  communityImageURL?: string
 };
 
 const formTabs: TabItemType[] = [
@@ -45,7 +46,7 @@ export type TabItemType = {
   icon: typeof Icon.arguments
 }
 
-const NewPostForm:React.FC<NewPostFormProps> = ({ user }) => {
+const NewPostForm:React.FC<NewPostFormProps> = ({ user, communityImageURL }) => {
 
   const router = useRouter()
 
@@ -67,6 +68,7 @@ const NewPostForm:React.FC<NewPostFormProps> = ({ user }) => {
       // store the post in db
       const postDocRef = await addDoc(collection(firestore, "posts"), {
         communityId: communityId as string,
+        communityImageURL: communityImageURL ?? "",
         creatorId: user.uid,
         creatorDisplayName: user.email!.split("@")[0],
         title: textInputs.title,

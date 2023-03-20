@@ -45,7 +45,8 @@ const useCommunityData = () => {
       const snippets = snippetDocs.docs.map(doc => ({ ...doc.data() }))
       setCommunityStateValue(prev => ({
         ...prev,
-        mySnippets: snippets as Array<CommunitySnippet>
+        mySnippets: snippets as Array<CommunitySnippet>,
+        snippetsFetched: true,
       }))
     } catch (e: any) {
       console.log("getMySnippets error", e)
@@ -136,7 +137,8 @@ const useCommunityData = () => {
     if (!user) {
       setCommunityStateValue(prev => ({
         ...prev,
-        mySnippets: []
+        mySnippets: [],
+        snippetsFetched: false
       }))
       return
     }
