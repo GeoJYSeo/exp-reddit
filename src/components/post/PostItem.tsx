@@ -1,11 +1,12 @@
 import { Post } from "@/src/atoms/postAtom"
-import { Alert, AlertIcon, Flex, Icon, Image, Skeleton, Spinner, Stack, Text } from "@chakra-ui/react"
+import { Alert, AlertIcon, Flex, Icon, Image, Link, Skeleton, Spinner, Stack, Text } from "@chakra-ui/react"
 import moment from "moment"
-import { BsChat } from "react-icons/bs"
+import { BsChat, BsDot } from "react-icons/bs"
 import { IoArrowDownCircleOutline, IoArrowDownCircleSharp, IoArrowRedoOutline, IoArrowUpCircleOutline, IoArrowUpCircleSharp, IoBookmarkOutline } from "react-icons/io5"
 import { AiOutlineDelete } from "react-icons/ai"
 import { useState } from "react"
 import { useRouter } from "next/router"
+import { FaReddit } from "react-icons/fa"
 
 type PostItemProps = {
   post: Post
@@ -14,10 +15,11 @@ type PostItemProps = {
   onVote: (event: React.MouseEvent<SVGElement, MouseEvent>, post: Post, vote: number, communityId: string) => void
   onDeletePost: (post: Post) => Promise<boolean>
   onSelectPost?: (post: Post) => void
+  homePage?: boolean
 }
 
 const PostItem:React.FC<PostItemProps> = ({
-  post, userIsCreator, userVoteValue, onVote, onDeletePost, onSelectPost
+  post, userIsCreator, userVoteValue, onVote, onDeletePost, onSelectPost, homePage
 }) => {
 
   const [loadingImage, setLoadingImage] = useState(true)
@@ -98,6 +100,27 @@ const PostItem:React.FC<PostItemProps> = ({
             align="center"
             fontSize="9pt"
           >
+            {homePage && (
+              <>
+                {post.communityImageURL ? (
+                  <Image
+                    src={post.communityImageURL}
+                    borderRadius="full"
+                    boxSize="25px"
+                    mr={2}
+                    alt=""
+                  />
+                ) : (
+                  <Icon as={FaReddit} fontSize="18pt" mr={1} color="blue.500" />
+                )}
+                <Link href={`r/${post.communityId}`}>
+                  <Text fontWeight={700} _hover={{ textDecoration: "underline" }} onClick={event => event.stopPropagation()}>
+                    {`r/${post.communityId}`}
+                  </Text>
+                </Link>
+                <Icon as={BsDot} color="gray.500" fontSize={8} />
+              </>
+            )}
             <Text>
               Posted by u/{post.creatorDisplayName}{" "}
               {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}
