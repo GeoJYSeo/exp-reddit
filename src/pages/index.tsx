@@ -7,6 +7,9 @@ import { useRecoilValue } from "recoil"
 import { communityState } from "../atoms/communityAtom"
 import { Post, PostVote } from "../atoms/postAtom"
 import CreatePostLink from "../components/community/CreatePostLink"
+import PersonalHome from "../components/community/PersonalHome"
+import Premium from "../components/community/Premium"
+import Recommendations from "../components/community/Recommendations"
 import PageContent from "../components/layout/PageContent"
 import PostItem from "../components/post/PostItem"
 import PostLoader from "../components/post/PostLoader"
@@ -123,9 +126,11 @@ const Home: NextPage = () => {
         </Stack>
       )}
       </>
-      <>
-        {/* Recommendations */}
-      </>
+      <Stack spacing={5}>
+        <Recommendations />
+        <Premium />
+        <PersonalHome />
+      </Stack>
     </PageContent>
   )
 }
